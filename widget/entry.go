@@ -1089,7 +1089,11 @@ func (r *entryRenderer) Refresh() {
 	selections := r.selection
 	r.entry.propertyLock.RUnlock()
 
-	if content != string(provider.buffer) {
+	r.entry.propertyLock.RLock()
+	equal:= content != string(provider.buffer)
+	r.entry.propertyLock.RUnlock()
+		
+	if equal {
 		r.entry.SetText(content)
 		return
 	}
